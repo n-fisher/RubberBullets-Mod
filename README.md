@@ -1,6 +1,6 @@
 # RubberBullets-Mod
 ## Description:
-This mod adds the option to fire rubber bullets from guns, doing blunt damage and helping to incapacitate without killing. Use '\' to activate/deactivate.
+This mod adds the option to fire rubber bullets from guns, doing blunt damage and helping to incapacitate without killing. Use '\\' to activate/deactivate.
 
 ## Known Bugs/Limitations/Requirements:
 Requires Hugslib to be installed, and in the load queue before this mod's place.
