@@ -73,7 +73,7 @@ namespace RubberBullets_Mod
                     {
                         return;
                     }
-                    if (RubberBullets_Mod.Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer)
+                    if (RubberBullets_Mod.Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer && dinfo.Def == DamageDefOf.Bullet)
                     {
                         float distance = IntVec3Utility.DistanceTo(dinfo.Instigator.Position, __instance.Position);
                         float range = dinfo.WeaponGear.Verbs[0].range;
@@ -85,6 +85,7 @@ namespace RubberBullets_Mod
                 }
                 catch (NullReferenceException e)
                 {
+                    RubberBullets_Mod.Instance.Logger.Message(e.ToString());
                     //catch melee exceptions
                 }
                 catch (Exception e)
