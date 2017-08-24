@@ -68,7 +68,13 @@ namespace RubberBullets_Mod
             {
                 try
                 {
-                    if (__instance.CasterPawn == null || __instance.CasterPawn.Faction == null || __instance.verbProps == null || __instance.verbProps.projectileDef == null || Faction.OfPlayer == null) return;
+                    if (RubberBullets_Mod.Instance == null || __instance.CasterPawn == null || __instance.CasterPawn.Faction == null
+                        || __instance.verbProps == null || __instance.verbProps.projectileDef == null || __instance.verbProps.projectileDef.projectile == null
+                        || Faction.OfPlayer == null)
+                    {
+                        return;
+                    }
+
                     if (RubberBullets_Mod.Instance.UsingRubberBullets && __instance.CasterPawn.Faction.Equals(Faction.OfPlayer))
                     {
                         __instance.verbProps.projectileDef.projectile.damageDef = DamageDefOf.Blunt;
@@ -77,7 +83,7 @@ namespace RubberBullets_Mod
                 }
                 catch (Exception e)
                 {
-                    Messages.Message("RubberBullets exception logged. You shouldn't see this so bug the dev!", MessageSound.Silent);
+                    //Catches exceptions from meleeing pawns
                 }
             }
         }
