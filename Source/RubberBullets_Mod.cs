@@ -66,22 +66,18 @@ namespace RubberBullets_Mod
             [HarmonyPrefix]
             public static void Impact_Patch(Thing __instance, ref DamageInfo dinfo)
             {
-                try
-                {
-                    DamageInfo d = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, dinfo.Angle, dinfo.Instigator, dinfo.ForceHitPart, dinfo.WeaponGear, dinfo.Category);
-                    if (RubberBullets_Mod.Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer)
-                    {
-                        dinfo = d;
-                        float distance = IntVec3Utility.DistanceTo(dinfo.Instigator.Position, __instance.Position);
-                        float range = dinfo.WeaponGear.Verbs[dinfo.WeaponGear.Verbs.Count - 1].range;
-                        float damageScalingByDistance = 0.5f * distance / range;
-                        dinfo.SetAmount((int)Math.Round(((float)dinfo.Amount) - ((float) dinfo.Amount) * damageScalingByDistance));
-                        RubberBullets_Mod.Instance.Logger.Message("Bullet with range " + range + " at distance " + distance + " did " + dinfo.Amount + " damage.");
-                    }
+                if (dinfo.Def == null || dinfo.Instigator == null || __instance.Position == null 
+                    || dinfo.WeaponGear.Verbs == null || dinfo.WeaponGear.Verbs.Count == 0) {
+                    return;
                 }
-                catch (Exception e)
+                if (RubberBullets_Mod.Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer)
                 {
-                    //Catches exceptions from not found factions
+                    float distance = IntVec3Utility.DistanceTo(dinfo.Instigator.Position, __instance.Position);
+                    float range = dinfo.WeaponGear.Verbs[0].range;
+                    float damageScalingByDistance = 0.5f * distance / range;
+                    dinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, dinfo.Angle, dinfo.Instigator, dinfo.ForceHitPart, dinfo.WeaponGear, dinfo.Category);
+                    dinfo.SetAmount((int)Math.Round(((float)dinfo.Amount) - ((float) dinfo.Amount) * damageScalingByDistance));
+                    //RubberBullets_Mod.Instance.Logger.Message("Bullet with range " + range + " at distance " + distance + " did " + dinfo.Amount + " damage.");
                 }
             }
         }
