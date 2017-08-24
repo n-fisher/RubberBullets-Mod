@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>RubberBullets Mod</name>
+	<name>Simple Rubber Bullets Mod</name>
 	<author>fyarn</author>
 	<targetVersion>0.17.1557</targetVersion>
-	<description>This mod adds the option to fire rubber bullets from guns, doing blunt damage and helping to incapacitate without killing.
+	<description>This mod adds the option to fire rubber bullets from guns, doing blunt damage and helping to incapacitate without killing. Use '\' to activate/deactivate.
 </description>
 </ModMetaData>
