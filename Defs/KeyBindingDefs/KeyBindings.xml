@@ -6,6 +6,6 @@
   <KeyBindingDef ParentName ="BaseKeyBinding">
     <defName>ToggleRubberBullets</defName>
     <label>Toggle colonists firing rubber bullets.</label>
-    <defaultKeyCodeA>\</defaultKeyCodeA>
+    <defaultKeyCodeA>Backslash</defaultKeyCodeA>
   </KeyBindingDef>
 </KeyBindingDefs>

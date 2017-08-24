@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using Verse;
+﻿using Verse;
 using Harmony;
 using RimWorld;
-using System.Linq;
 using UnityEngine;
 using HugsLib;
-using UnityEngine.Networking;
 using System;
 
 namespace RubberBullets_Mod
@@ -69,10 +66,18 @@ namespace RubberBullets_Mod
             [HarmonyPrefix]
             public static void Impact_Patch(Verb __instance)
             {
-                if(RubberBullets_Mod.Instance.UsingRubberBullets && __instance.CasterPawn.Faction.Name.Equals(Faction.OfPlayer.Name))
+                try
                 {
-                    __instance.verbProps.projectileDef.projectile.damageDef = DamageDefOf.Blunt;
-                    __instance.verbProps.projectileDef.projectile.damageDef.label = "Rubber Bullet";
+                    if (__instance.CasterPawn == null || __instance.CasterPawn.Faction == null || __instance.verbProps == null) return;
+                    if (RubberBullets_Mod.Instance.UsingRubberBullets && __instance.CasterPawn.Faction.Equals(Faction.OfPlayer))
+                    {
+                        __instance.verbProps.projectileDef.projectile.damageDef = DamageDefOf.Blunt;
+                        __instance.verbProps.projectileDef.projectile.damageDef.label = "Rubber Bullet";
+                    }
+                }
+                catch (Exception e)
+                {
+                    Messages.Message("RubberBullets exception logged. You shouldn't see this so bug the dev!", MessageSound.Silent);
                 }
             }
         }
