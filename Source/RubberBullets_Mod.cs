@@ -60,30 +60,28 @@ namespace RubberBullets_Mod
             Messages.Message("Rubber bullets turned " + (usingRubberBullets ? "on" : "off") + ".", MessageSound.Silent);
         }
 
-        [HarmonyPatch(typeof(Verb), "WarmupComplete")]
+        [HarmonyPatch(typeof(Thing), "TakeDamage")]
         class RubberBullet
         {
             [HarmonyPrefix]
-            public static void Impact_Patch(Verb __instance)
+            public static void Impact_Patch(Thing __instance, ref DamageInfo dinfo)
             {
                 try
                 {
-                    if (RubberBullets_Mod.Instance == null || __instance.CasterPawn == null || __instance.CasterPawn.Faction == null
-                        || __instance.verbProps == null || __instance.verbProps.projectileDef == null || __instance.verbProps.projectileDef.projectile == null
-                        || Faction.OfPlayer == null)
+                    DamageInfo d = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, dinfo.Angle, dinfo.Instigator, dinfo.ForceHitPart, dinfo.WeaponGear, dinfo.Category);
+                    if (RubberBullets_Mod.Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer)
                     {
-                        return;
-                    }
-
-                    if (RubberBullets_Mod.Instance.UsingRubberBullets && __instance.CasterPawn.Faction.Equals(Faction.OfPlayer))
-                    {
-                        __instance.verbProps.projectileDef.projectile.damageDef = DamageDefOf.Blunt;
-                        __instance.verbProps.projectileDef.projectile.damageDef.label = "Rubber Bullet";
+                        dinfo = d;
+                        float distance = IntVec3Utility.DistanceTo(dinfo.Instigator.Position, __instance.Position);
+                        float range = dinfo.WeaponGear.Verbs[dinfo.WeaponGear.Verbs.Count - 1].range;
+                        float damageScalingByDistance = 0.5f * distance / range;
+                        dinfo.SetAmount((int)Math.Round(((float)dinfo.Amount) - ((float) dinfo.Amount) * damageScalingByDistance));
+                        RubberBullets_Mod.Instance.Logger.Message("Bullet with range " + range + " at distance " + distance + " did " + dinfo.Amount + " damage.");
                     }
                 }
                 catch (Exception e)
                 {
-                    //Catches exceptions from meleeing pawns
+                    //Catches exceptions from not found factions
                 }
             }
         }
