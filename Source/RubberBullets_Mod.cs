@@ -4,20 +4,25 @@ using RimWorld;
 using UnityEngine;
 using HugsLib;
 using System;
+using HugsLib.Settings;
 
 namespace RubberBullets_Mod
 {
     public class RubberBullets_Mod : ModBase
     {
         internal const string ModId = "RubberBullets_Mod";
-        private bool usingRubberBullets;
+        private SettingHandle<bool> usingRubberBullets;
         public static KeyBindingDef ToggleRubberBullets = KeyBindingDef.Named("ToggleRubberBullets");
         private static RubberBullets_Mod instance = null;
 
         private RubberBullets_Mod()
         {
             instance = this;
-            usingRubberBullets = false;
+        }
+
+        public override void DefsLoaded()
+        {
+            usingRubberBullets = Settings.GetHandle<bool>("usingRubberBullets", "Use rubber bullets?", "Enables rubber bullets. These do blunt damage and have less damage at range than standard bullets do. (Can toggle with \"\\\")", false);
         }
 
         public static RubberBullets_Mod Instance
@@ -35,7 +40,11 @@ namespace RubberBullets_Mod
         public bool UsingRubberBullets
         {
             get => usingRubberBullets;
-            set => usingRubberBullets = value;
+            set
+            {
+                usingRubberBullets.Value = value;
+                HugsLibController.SettingsManager.SaveChanges();
+            }
         }
 
         public override string ModIdentifier
@@ -56,8 +65,8 @@ namespace RubberBullets_Mod
 
         public void toggleMod()
         {
-            usingRubberBullets = !usingRubberBullets;
-            Messages.Message("Rubber bullets turned " + (usingRubberBullets ? "on" : "off") + ".", MessageSound.Silent);
+            UsingRubberBullets = !UsingRubberBullets;
+            Messages.Message("Rubber bullets turned " + (UsingRubberBullets ? "on" : "off") + ".", MessageSound.Silent);
         }
 
         [HarmonyPatch(typeof(Thing), "TakeDamage")]
@@ -68,7 +77,7 @@ namespace RubberBullets_Mod
             {
                 try
                 {
-                    if (dinfo.Def == null || dinfo.Instigator == null || __instance.Position == null
+                    if (__instance == null || dinfo.Def == null || dinfo.Instigator == null || __instance.Position == null
                         || dinfo.WeaponGear.Verbs == null || dinfo.WeaponGear.Verbs.Count == 0)
                     {
                         return;
@@ -83,15 +92,9 @@ namespace RubberBullets_Mod
                         //RubberBullets_Mod.Instance.Logger.Message("Bullet with range " + range + " at distance " + distance + " did " + dinfo.Amount + " damage.");
                     }
                 }
-                catch (NullReferenceException e)
-                {
-                    RubberBullets_Mod.Instance.Logger.Message(e.ToString());
-                    //catch melee exceptions
-                }
                 catch (Exception e)
                 {
-                    //catch other exceptions, shouldn't be reached
-                    RubberBullets_Mod.Instance.Logger.ReportException(e);
+                    //catch melee NullReference exceptions
                 }
             }
         }
