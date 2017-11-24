@@ -40,7 +40,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="HugsLib">
-      <HintPath>D:\Libraries\Documents\hidden\HugsLib.dll</HintPath>
+      <HintPath>..\..\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
