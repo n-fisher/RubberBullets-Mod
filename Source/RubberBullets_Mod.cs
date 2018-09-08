@@ -5,6 +5,7 @@ using UnityEngine;
 using HugsLib;
 using System;
 using HugsLib.Settings;
+using System.Reflection;
 
 namespace RubberBullets_Mod
 {
@@ -17,6 +18,8 @@ namespace RubberBullets_Mod
 
         private RubberBullets_Mod()
         {
+            HarmonyInstance.Create(ModId).PatchAll(Assembly.GetExecutingAssembly());
+
             instance = this;
         }
 
@@ -66,36 +69,28 @@ namespace RubberBullets_Mod
         public void toggleMod()
         {
             UsingRubberBullets = !UsingRubberBullets;
-            Messages.Message("Rubber bullets turned " + (UsingRubberBullets ? "on" : "off") + ".", MessageSound.Silent);
+            Messages.Message("Rubber bullets turned " + (UsingRubberBullets ? "on" : "off") + ".", MessageTypeDefOf.SilentInput);
         }
 
         [HarmonyPatch(typeof(Thing), "TakeDamage")]
         class RubberBullet
         {
             [HarmonyPrefix]
-            public static void Impact_Patch(Thing __instance, ref DamageInfo dinfo)
+            static void Prefix(Thing __instance, ref DamageInfo dinfo)
             {
-                try
-                {
+                try {
                     if (__instance == null || dinfo.Def == null || dinfo.Instigator == null || __instance.Position == null
-                        || dinfo.WeaponGear.Verbs == null || dinfo.WeaponGear.Verbs.Count == 0)
-                    {
+                        || dinfo.Weapon.Verbs == null || dinfo.Weapon.Verbs.Count == 0) {
                         return;
                     }
-                    if (RubberBullets_Mod.Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer && dinfo.Def == DamageDefOf.Bullet)
-                    {
+                    if (Instance.UsingRubberBullets && dinfo.Instigator.Faction.IsPlayer && dinfo.Def == DamageDefOf.Bullet) {
                         float distance = IntVec3Utility.DistanceTo(dinfo.Instigator.Position, __instance.Position);
-                        float range = dinfo.WeaponGear.Verbs[0].range;
+                        float range = dinfo.Weapon.Verbs[0].range;
                         float damageScalingByDistance = 0.5f * distance / range;
-                        dinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, dinfo.Angle, dinfo.Instigator, dinfo.ForceHitPart, dinfo.WeaponGear, dinfo.Category);
-                        dinfo.SetAmount((int)Math.Round(((float)dinfo.Amount) - ((float)dinfo.Amount) * damageScalingByDistance));
-                        //RubberBullets_Mod.Instance.Logger.Message("Bullet with range " + range + " at distance " + distance + " did " + dinfo.Amount + " damage.");
+                        dinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, 0, dinfo.Angle, dinfo.Instigator, dinfo.HitPart, dinfo.Weapon, dinfo.Category, dinfo.IntendedTarget);
+                        dinfo.SetAmount((float) Math.Round(dinfo.Amount - dinfo.Amount * damageScalingByDistance));
                     }
-                }
-                catch (Exception e)
-                {
-                    //catch melee NullReference exceptions
-                }
+                } catch (Exception e) { Log.Error(e.ToStringSafe()); } //catch melee NullReference exceptions
             }
         }
     }

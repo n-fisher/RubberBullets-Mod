@@ -10,6 +10,15 @@ Requires Hugslib to be installed, and in the load queue before this mod's place.
 - CombatExtended compatibility: Work In Progress
 
 ## Updates
+Sep 8 2018
+B19 Update
+
+Nov 23 2017
+Update to b18
+
+Aug 25 2017
+Update to add toggle checkbox in Mod Settings menu.
+
 Aug 24 2017
 Initial Release
 

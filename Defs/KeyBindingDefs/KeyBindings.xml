@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<KeyBindingDefs>
-  <KeyBindingDef Name="BaseKeyBinding" Abstract="true">
-    <category>RubberBulletKeys</category>
-  </KeyBindingDef>
-  <KeyBindingDef ParentName ="BaseKeyBinding">
-    <defName>ToggleRubberBullets</defName>
-    <label>Toggle colonists firing rubber bullets.</label>
-    <defaultKeyCodeA>Backslash</defaultKeyCodeA>
-  </KeyBindingDef>
-</KeyBindingDefs>
+<Defs>
+    <KeyBindingDef Name="BaseKeyBinding" Abstract="true">
+        <category>RubberBulletKeys</category>
+    </KeyBindingDef>
+    <KeyBindingDef ParentName ="BaseKeyBinding">
+        <defName>ToggleRubberBullets</defName>
+        <label>Toggle colonists firing rubber bullets.</label>
+        <defaultKeyCodeA>Backslash</defaultKeyCodeA>
+    </KeyBindingDef>
+</Defs>
