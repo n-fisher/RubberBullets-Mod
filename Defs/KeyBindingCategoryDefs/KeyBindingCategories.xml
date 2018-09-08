@@ -1,11 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
 <Defs>
-
-	  <KeyBindingCategoryDef>
-		<defName>RubberBulletKeys</defName>
-		<label>Toggle rubber bullets.</label>
-		<description>Toggle rubber bullets.</description>
-	  </KeyBindingCategoryDef>
-
+  <KeyBindingCategoryDef>
+    <defName>RubberBulletKeys</defName>
+    <label>Toggle rubber bullets.</label>
+    <description>Toggle rubber bullets.</description>
+  </KeyBindingCategoryDef>
 </Defs>
