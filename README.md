@@ -10,10 +10,10 @@ Requires Hugslib to be installed, and in the load queue before this mod's place.
 - CombatExtended compatibility: Work In Progress
 
 ## Updates
-Sep 8 2018
+Oct 17 2018
 1.0 Update
 
-Oct 17 2018
+Sep 8 2018
 B19 Update
 
 Nov 23 2017
