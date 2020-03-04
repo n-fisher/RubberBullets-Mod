@@ -1,0 +1,10 @@
+﻿<Defs>
+    <KeyBindingDef Name="BaseKeyBinding" Abstract="true">
+        <category>UsingRubberBullets</category>
+    </KeyBindingDef>
+    <KeyBindingDef ParentName ="BaseKeyBinding">
+        <defName>UsingRubberBullets</defName>
+        <label>Colonists should fire rubber bullets.</label>
+        <defaultKeyCodeA>Backslash</defaultKeyCodeA>
+    </KeyBindingDef>
+</Defs>

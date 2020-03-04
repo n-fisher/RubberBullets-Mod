@@ -1,0 +1,7 @@
+﻿<Defs>
+  <KeyBindingCategoryDef>
+    <defName>UsingRubberBullets</defName>
+    <label>Toggle rubber bullets.</label>
+    <description>Toggle rubber bullets.</description>
+  </KeyBindingCategoryDef>
+</Defs>
