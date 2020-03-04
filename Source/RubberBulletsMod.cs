@@ -45,11 +45,11 @@ namespace RubberBulletsMod {
                 [HarmonyPrefix]
                 static void Prefix(Thing __instance, ref DamageInfo dinfo) {
                     try {
-                        if (__instance == null ||
+                        if (__instance?.Position == null ||
                             dinfo.Def == null ||
-                            dinfo.Instigator == null ||
-                            __instance.Position == null ||
-                            dinfo.Weapon.Verbs == null ||
+                            dinfo.Instigator?.Faction == null ||
+                            dinfo.Instigator?.Position == null ||
+                            dinfo.Weapon?.Verbs?[0] == null ||
                             dinfo.Weapon.Verbs.Count == 0) {
                             return;
                         }
@@ -64,7 +64,7 @@ namespace RubberBulletsMod {
                             dinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, 0, dinfo.Angle, dinfo.Instigator, dinfo.HitPart, dinfo.Weapon, dinfo.Category, dinfo.IntendedTarget);
                             dinfo.SetAmount((float) Math.Round(dinfo.Amount - dinfo.Amount * damageScalingByDistance));
                         }
-                    } catch (Exception e) { Log.Error(e.ToStringSafe()); } //catch melee NullReference exceptions
+                    } catch (Exception e) { } //catch melee NullReference exceptions
                 }
             }
         }
