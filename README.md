@@ -7,21 +7,27 @@ Requires Harmony above it in the mod order.
 
 ## Updates
 March 3 2020
+
 1.1 Update
 
 Oct 17 2018
+
 1.0 Update
 
 Sep 8 2018
+
 B19 Update
 
 Nov 23 2017
+
 Update to b18
 
 Aug 25 2017
+
 Update to add toggle checkbox in Mod Settings menu.
 
 Aug 24 2017
+
 Initial Release
 
 ## Author/Mod Team
